@@ -1,0 +1,63 @@
+DROP DATABASE IF EXISTS Works;
+CREATE DATABASE Works DEFAULT CHARSET=GBK;
+GO
+USE Works;
+CREATE TABLE UserInfo
+(
+UserName nvarchar(50) Primary key,
+Password nvarchar(50) not null,
+QQ nvarchar(12),
+Email nvarchar(50),
+Type nchar(10) not null,
+UserImg nvarchar(250)
+);
+CREATE TABLE Acitvity
+(
+AcitvityID int(4) Primary key auto_increment,
+AcitvityName nvarchar(125) not null,
+EndTime datetime(8) not null,
+AcitvityPicture nvarchar(250) not null,
+AcitvityIntroduction nvarchar(8000),
+Summary nvarchar(250),
+AcitvityVerify nchar(10) not null DEFAULT '´ýÉóºË',
+AcitvityStatus nchar(10),
+UserName nvarchar(50) not null
+);
+CREATE TABLE WorkInfo
+(
+WorkID int(4) Primary key,
+WorkName nvarchar(50) not null,
+WorkPicture nvarchar(250) not null,
+UploadTime detetime(8) not null,
+WorkIntroduction nvarchar(8000),
+WorkVerify nchar(10) not null,
+UserName nvarchar(50) not null,
+ActivityName nvarchar(125),
+Recommend nchar(2) not null,
+RecommendTime datetime(8)
+);
+CREATE TABLE Comment
+(
+CommentID int(4) Primary key,
+WorkID int(4) not null,
+WorkName nvarchar(50) not null,
+UserName nvarchar(50) not null,
+CommentContent nvarchar(8000) not null,
+CommentTime datetime(8) not null
+);
+CREATE TABLE Image
+(
+ImgID int(4) Primary key,
+ImgUrl nvarchar(50) not null,
+ImgText nvarchar(50) not null,
+ImgLink nvarchar(100) not null,
+ImgAlt nvarchar(50) not null
+);
+ALTER TABLE WorkInfo
+ADD FOREIGN KEY(UserName) REFERENCES UserInfo(UserName);
+ALTER TABLE Activity
+ADD FOREIGN KEY(UserName) REFERENCES UserInfo(UserName);
+ALTER TABLE Comment
+ADD FOREIGN KEY(UserName) REFERENCES UserInfo(UserName);
+ALTER TABLE Comment
+ADD FOREIGN KEY(WorkID) REFERENCES WorkInfo(WorkID);
